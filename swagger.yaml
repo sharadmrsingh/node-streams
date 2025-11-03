@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: Node Streams API
+  version: 1.0.0
+  description: A complete Node.js backend demonstrating all major stream types — readable, writable, transform, and pipeline.
+servers:
+  - url: http://localhost:8000
+paths:
+  /csv:
+    get:
+      summary: Process a CSV file via streaming and insert into SQLite DB
+      responses:
+        '200':
+          description: CSV stream started
+  /video:
+    get:
+      summary: Stream video in chunks (Range requests)
+      parameters:
+        - in: header
+          name: Range
+          required: true
+          schema:
+            type: string
+      responses:
+        '206':
+          description: Partial video content
+  /file/download:
+    get:
+      summary: Stream a large text file as download
+      responses:
+        '200':
+          description: File stream response
+  /file/upload:
+    post:
+      summary: Stream file uploads (any type)
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: File uploaded successfully
+  /file/transform:
+    get:
+      summary: Compress a file via gzip transform stream
+      responses:
+        '200':
+          description: Compression success
+  /pipeline:
+    get:
+      summary: Demonstrate stream.pipeline() usage
+      responses:
+        '200':
+          description: Pipeline executed successfully
+  /stats:
+    get:
+      summary: Stream live memory usage stats
+      responses:
+        '200':
+          description: Streamed text output
+  /buffered:
+    get:
+      summary: Compare buffered vs streamed read
+      responses:
+        '200':
+          description: Benchmark complete
